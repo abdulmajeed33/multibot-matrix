@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/nextjs": "^4.21.15",
     "@hookform/resolvers": "^3.1.1",
+    "@pinecone-database/pinecone": "^0.1.6",
     "@prisma/client": "^5.0.0",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -32,10 +33,14 @@
     "crisp-sdk-web": "^1.0.19",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
+    "formidable": "^3.5.0",
+    "hnswlib-node": "^1.4.2",
+    "langchain": "^0.0.127",
     "lucide-react": "^0.259.0",
     "next": "13.4.9",
     "next-themes": "^0.2.1",
     "openai": "^3.3.0",
+    "pdf-parse": "^1.1.1",
     "postcss": "8.4.25",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -49,10 +54,12 @@
     "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.6",
     "typewriter-effect": "^2.20.1",
+    "youtube-transcript": "^1.0.6",
     "zod": "^3.21.4",
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.1",
     "prisma": "^5.0.0"
   }
 }

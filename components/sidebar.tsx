@@ -3,13 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
-import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from "lucide-react";
+import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon, Brain, Upload, Youtube } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { FreeCounter } from "@/components/free-counter";
 
-const poppins = Montserrat ({ weight: '600', subsets: ['latin'] });
+const poppins = Montserrat({ weight: '600', subsets: ['latin'] });
 
 const routes = [
   {
@@ -31,22 +31,28 @@ const routes = [
     href: '/image',
   },
   {
-    label: 'Video Generation',
-    icon: VideoIcon,
-    color: "text-orange-700",
-    href: '/video',
-  },
-  {
-    label: 'Music Generation',
-    icon: Music,
-    color: "text-emerald-500",
-    href: '/music',
-  },
-  {
     label: 'Code Generation',
     icon: Code,
     color: "text-green-700",
     href: '/code',
+  },
+  {
+    label: 'Memory',
+    icon: Brain,
+    color: "text-sky-500",
+    href: '/memory',
+  },
+  {
+    label: 'Documents',
+    icon: Upload,
+    color: "text-sky-500",
+    href: '/pdf',
+  },
+  {
+    label: 'Youtube',
+    icon: Youtube,
+    color: "text-red-500",
+    href: '/video-chat',
   },
   {
     label: 'Settings',
@@ -78,7 +84,7 @@ export const Sidebar = ({
         <div className="space-y-1">
           {routes.map((route) => (
             <Link
-              key={route.href} 
+              key={route.href}
               href={route.href}
               className={cn(
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
@@ -93,8 +99,8 @@ export const Sidebar = ({
           ))}
         </div>
       </div>
-      <FreeCounter 
-        apiLimitCount={apiLimitCount} 
+      <FreeCounter
+        apiLimitCount={apiLimitCount}
         isPro={isPro}
       />
     </div>
