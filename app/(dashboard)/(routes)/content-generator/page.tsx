@@ -17,18 +17,20 @@ import { Loader } from "@/components/loader";
 import { Input } from "@/components/ui/input";
 import { Heading } from "@/components/heading";
 import axios from "axios";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 
 
 const ContentGenerator: React.FC = () => {
   const [firstMsg, setFirstMsg] = useState(true);
   const [messages, setMessages] = useState<any[]>([]);
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      prompt: "https://www.youtube.com/watch?v=Il72uEjs4o0",
-      topic: "India Chandrayaan 3",
+      prompt: "https://www.youtube.com/watch?v=O_9JoimRj8w",
+      topic: "Pedro Pascal",
     }
   });
 
@@ -54,7 +56,7 @@ const ContentGenerator: React.FC = () => {
     } catch (error: any) {
       console.error(error);
       if (error?.response?.status === 403) {
-        // Handle this case accordingly
+        proModal.onOpen();
       } else {
         toast.error("Something went wrong.");
       }
