@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
-import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon, Brain, Upload, Youtube } from "lucide-react";
+import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon, Brain, Upload, Youtube, PenBox, Container } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -31,28 +31,46 @@ const routes = [
     href: '/image',
   },
   {
+    label: 'Video Generation',
+    icon: VideoIcon,
+    color: "text-red-500",
+    href: '/video',
+  },
+  {
     label: 'Code Generation',
     icon: Code,
     color: "text-green-700",
     href: '/code',
   },
+  // {
+  //   label: 'Memory',
+  //   icon: Brain,
+  //   color: "text-sky-500",
+  //   href: '/memory',
+  // },
+  // {
+  //   label: 'Documents',
+  //   icon: Upload,
+  //   color: "text-sky-500",
+  //   href: '/pdf',
+  // },
+  // {
+  //   label: 'Youtube',
+  //   icon: Youtube,
+  //   color: "text-red-500",
+  //   href: '/video-chat',
+  // },
   {
-    label: 'Memory',
-    icon: Brain,
-    color: "text-sky-500",
-    href: '/memory',
+    label: 'Content Generator',
+    icon: Container,
+    color: "text-blue-600",
+    href: '/content-generator',
   },
   {
-    label: 'Documents',
-    icon: Upload,
-    color: "text-sky-500",
-    href: '/pdf',
-  },
-  {
-    label: 'Youtube',
-    icon: Youtube,
-    color: "text-red-500",
-    href: '/video-chat',
+    label: 'Article Summary',
+    icon: PenBox,
+    color: "text-gray-400",
+    href: '/article-summary',
   },
   {
     label: 'Settings',
@@ -78,7 +96,7 @@ export const Sidebar = ({
             <Image fill alt="Logo" src="/logo.png" />
           </div>
           <h1 className={cn("text-2xl font-bold", poppins.className)}>
-            Genius
+            MultiBot-Matrix
           </h1>
         </Link>
         <div className="space-y-1">

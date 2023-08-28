@@ -51,7 +51,7 @@ const Memory: React.FC = () => {
         { text: values.prompt, type: "user", sourceDocuments: null },
       ]);
 
-      const response = await axios.post("/api/memory", {
+      const response = await axios.post("/api/streaming", {
         input: values.prompt,
         firstMsg
       });

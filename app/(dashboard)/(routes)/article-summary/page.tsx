@@ -20,20 +20,19 @@ import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal";
+import { formSchema } from "./constant";
 
-import { formSchema } from "./constants";
 
 const ConversationPage = () => {
+  const RAPID_API_ARTICLE_KEY = process.env.RAPID_API_ARTICLE_KEY;
   const router = useRouter();
   const proModal = useProModal();
-  const [firstMsg, setFirstMsg] = useState<boolean>(true);
-
   const [messages, setMessages] = useState<any[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      prompt: ""
+      prompt: "https://www.freecodecamp.org/news/json-server-for-frontend-development/"
     }
   });
 
@@ -44,12 +43,21 @@ const ConversationPage = () => {
       const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post('/api/streaming', {
-        input: values.prompt,
-        firstMsg
-      });
-      setFirstMsg(false);
-      setMessages((current) => [...current, userMessage, response.data.output]);
+      const options = {
+        method: 'GET',
+        url: 'https://article-extractor-and-summarizer.p.rapidapi.com/summarize',
+        params: {
+          url: values.prompt,
+          length: '3'
+        },
+        headers: {
+          'X-RapidAPI-Key': '7651dd255fmsh602f9e8eadf452cp1847bejsna57fe603c588',
+          'X-RapidAPI-Host': 'article-extractor-and-summarizer.p.rapidapi.com'
+        }
+      };
+
+      const response = await axios.request(options);
+      setMessages((current) => [...current, userMessage, response.data]);
 
       form.reset();
     } catch (error: any) {
@@ -63,11 +71,14 @@ const ConversationPage = () => {
     }
   }
 
+  console.log("messages", messages);
+
   return (
     <div>
       <Heading
-        title="Conversation"
-        description="I remember everything!This tool uses Buffer Memory and Conversation Chain. Head over to Module X to get started! "
+        title="Article Summary"
+        description=" Simplify your reading with Summize, an open-source article summarizer
+        that transforms lengthy articles into clear and concise summaries"
         icon={MessageSquare}
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
@@ -98,7 +109,7 @@ const ConversationPage = () => {
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                         disabled={isLoading}
-                        placeholder="How do I calculate the radius of a circle?"
+                        placeholder="Enter Article Url"
                         {...field}
                       />
                     </FormControl>
@@ -121,17 +132,17 @@ const ConversationPage = () => {
             <Empty label="No conversation started." />
           )}
           <div className="flex flex-col-reverse gap-y-4">
-            {messages?.map((message) => (
+            {messages.map((message) => (
               <div
-                key={message?.content}
+                key={message.content}
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message?.role === "user" ? "bg-white border border-black/10" : "bg-muted",
+                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
                 )}
               >
-                {message?.role === "user" ? <UserAvatar /> : <BotAvatar />}
+                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                 <p className="text-sm">
-                  {message?.content ?? message?.response}
+                  {message.content ?? message.summary}
                 </p>
               </div>
             ))}

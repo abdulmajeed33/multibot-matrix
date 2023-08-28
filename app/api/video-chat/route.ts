@@ -1,8 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { YoutubeTranscript } from "youtube-transcript";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { ConversationalRetrievalQAChain } from "langchain/chains";
+import {
+  ConversationalRetrievalQAChain,
+  VectorDBQAChain,
+} from "langchain/chains";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
+
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { CharacterTextSplitter } from "langchain/text_splitter";
 import { NextResponse } from "next/server";
@@ -26,8 +30,8 @@ const initializeChain = async (initialPrompt: string, transcript: string) => {
     // Create a text splitter, we use a smaller chunk size and chunk overlap since we are working with small sentences
     const splitter = new CharacterTextSplitter({
       separator: " ",
-      chunkSize: 7,
-      chunkOverlap: 3,
+      chunkSize: 250,
+      chunkOverlap: 10,
     });
 
     // Using the splitter, we create documents from a bigger document, in this case the YouTube Transcript
@@ -41,7 +45,7 @@ const initializeChain = async (initialPrompt: string, transcript: string) => {
     // So I find that it's nice for doing some quick prototyping.
     // But the downside is that you don't get the nice dashboard like we had in Pinecone.
     const vectorStore = await HNSWLib.fromDocuments(
-      [{ pageContent: transcript, metadata: {} }],
+      docs,
       new OpenAIEmbeddings()
     );
 
@@ -63,7 +67,7 @@ const initializeChain = async (initialPrompt: string, transcript: string) => {
     // Remember we can use the loadedVectorStore or the vectorStore, in case for example you want to scale this application up and use the same vector store to store multiple Youtube transcripts.
     chain = ConversationalRetrievalQAChain.fromLLM(
       model,
-      vectorStore.asRetriever(),
+      vectorStore as any,
       { verbose: true } // Add verbose option here
     );
 
