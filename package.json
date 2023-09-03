@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@types/formidable": "^3.4.1",
+    "encoding": "^0.1.13",
     "prisma": "^5.0.0"
   }
 }
