@@ -43,21 +43,21 @@ const ConversationPage = () => {
       const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
       const newMessages = [...messages, userMessage];
 
-      // const options = {
-      //   method: 'GET',
-      //   url: 'https://article-extractor-and-summarizer.p.rapidapi.com/summarize',
-      //   params: {
-      //     url: values.prompt,
-      //     length: '3'
-      //   },
-      //   headers: {
-      //     'X-RapidAPI-Key': '7651dd255fmsh602f9e8eadf452cp1847bejsna57fe603c588',
-      //     'X-RapidAPI-Host': 'article-extractor-and-summarizer.p.rapidapi.com'
-      //   }
-      // };
+      const options = {
+        method: 'GET',
+        url: 'https://article-extractor-and-summarizer.p.rapidapi.com/summarize',
+        params: {
+          url: values.prompt,
+          length: '3'
+        },
+        headers: {
+          'X-RapidAPI-Key': '7651dd255fmsh602f9e8eadf452cp1847bejsna57fe603c588',
+          'X-RapidAPI-Host': 'article-extractor-and-summarizer.p.rapidapi.com'
+        }
+      };
 
-      // const response = await axios.request(options);
-      const response = await axios.post('/api/article-summary', { articleUrl: values.prompt });
+      const response = await axios.request(options);
+      // const response = await axios.post('/api/article-summary', { articleUrl: values.prompt });
       console.log("response", response);
       setMessages((current) => [...current, userMessage, response.data]);
 
