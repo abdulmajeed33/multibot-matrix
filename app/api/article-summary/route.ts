@@ -34,27 +34,42 @@ export async function POST(req: Request) {
       );
     }
 
-    const options = {
+    // const options = {
+    //   method: "GET",
+    //   url: "https://article-extractor-and-summarizer.p.rapidapi.com/summarize",
+    //   params: {
+    //     url: articleUrl,
+    //     length: "3",
+    //   },
+    //   headers: {
+    //     "X-RapidAPI-Key": rapidApiKey,
+    //     "X-RapidAPI-Host": "article-extractor-and-summarizer.p.rapidapi.com",
+    //   },
+    // };
+    // const response = await axios.request(options);
+
+    const requestOptions = {
       method: "GET",
-      url: "https://article-extractor-and-summarizer.p.rapidapi.com/summarize",
-      params: {
-        url: articleUrl,
-        length: "3",
-      },
       headers: {
         "X-RapidAPI-Key": "7651dd255fmsh602f9e8eadf452cp1847bejsna57fe603c588",
         "X-RapidAPI-Host": "article-extractor-and-summarizer.p.rapidapi.com",
       },
     };
-    const response = await axios.request(options);
-    const summarizedContent = response.data.summary; // Extract the summarized content
+
+    const url = new URL(
+      "https://article-extractor-and-summarizer.p.rapidapi.com/summarize"
+    );
+    url.searchParams.append("url", articleUrl);
+    url.searchParams.append("length", "3");
+
+    const response = await fetch(url, requestOptions);
+    const data = await response.json();
+    const summarizedContent = data.summary; // Extract the summarized content
     if (!isPro) {
       await incrementApiLimit();
     }
     console.log("response", response);
-    return new NextResponse(JSON.stringify({ summary: summarizedContent }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return new NextResponse(JSON.stringify({ summary: summarizedContent }), {});
   } catch (error) {
     console.error("Error fetching summary:", error);
     return new NextResponse("Internal Error", { status: 500 });
