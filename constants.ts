@@ -59,12 +59,12 @@ export const tools = [
   //   color: "text-red-500",
   //   href: "/video-chat",
   // },
-  {
-    label: "Content Generator",
-    icon: Container,
-    color: "text-blue-600",
-    href: "/content-generator",
-  },
+  // {
+  //   label: "Content Generator",
+  //   icon: Container,
+  //   color: "text-blue-600",
+  //   href: "/content-generator",
+  // },
   {
     label: "Article Summary",
     icon: PenBox,
